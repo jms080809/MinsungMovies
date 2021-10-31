@@ -10,14 +10,7 @@
   font-family: "IBM Plex Sans KR", sans-serif;
   color: var(--movie-font-color);
 }
-.movieDetail {
-  border-radius: 10px;
-  position: fixed;
-  width: 35%;
-  height: 100%;
-  background-color: var(--movie-detail-bg-color);
-  right: 0;
-}
+
 .movieList {
   margin: 0;
   padding: 10px;
@@ -43,9 +36,37 @@
   cursor: pointer;
 }
 .movieSection .movie .poster {
-  width: 300px;
+  width: 200px;
 }
 .movieSection .movie p {
   display: block;
   margin: 0;
+}
+/* movie Details */
+.movieDetail {
+  border-radius: 10px;
+  position: fixed;
+  width: 35%;
+  height: 100%;
+  background-color: var(--movie-detail-bg-color);
+  right: 0;
+}
+.movieDetail .details {
+  margin: 0 auto;
+  width: 500px;
+}
+.movieDetail p {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+}
+.movieDetail > .details > .detail > img {
+  width: 200px;
+}
+.movieDetail > a {
+  text-align: center;
+  display: block;
+  color: var(--movie-font-color);
+  margin: 0 auto;
+  font-size: 30px;
 }

@@ -79,7 +79,10 @@ export class RenderMovie extends react.Component {
           this.props.updateState({
             title: this.props.title,
             overview: this.props.overview,
-            vote_average : this.props.vote_average
+            vote_average: this.props.vote_average,
+            poster_path: this.props.poster_path,
+            release_date: this.props.release_date,
+            genre: genrelist.toString(),
           })
         }
       >

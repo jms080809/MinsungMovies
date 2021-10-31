@@ -58,7 +58,7 @@ class App extends React.Component {
         ) : (
           <div>
             <div className="movieList">
-              <h1>주간 추천</h1>
+              <h1>주간 트렌드</h1>
               <popular className="movieSection">
                 {this.state.movies["weektrend"].map((element) => (
                   <RenderMovie
@@ -84,6 +84,7 @@ class App extends React.Component {
                     release_date={
                       element.release_date || element.first_air_date
                     }
+                    overview={element.overview}
                     alt={element.title || element.name}
                     genres={element.genre_ids}
                     updateState={this.handleSelectMovie}
@@ -96,10 +97,11 @@ class App extends React.Component {
                 {this.state.movies["topLank"].map((element) => (
                   <RenderMovie
                     title={element.title || element.name}
-                    poster_path={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${element.poster_path}`}
+                    poster_path={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${element.poster_path}`}
                     release_date={
                       element.release_date || element.first_air_date
                     }
+                    overview={element.overview}
                     alt={element.title || element.name}
                     genres={element.genre_ids}
                     updateState={this.handleSelectMovie}
@@ -110,10 +112,31 @@ class App extends React.Component {
             </div>
             <div className="movieDetail">
               {this.state.selectMovie == null ? (
-                <p>Nothing selected</p>
+                <p className="loading">Nothing selected</p>
               ) : (
-                <p>yes</p>
+                <div className="details">
+                  <div className="detail">
+                    <img
+                      src={this.state.selectMovie.poster_path}
+                      alt={this.state.selectMovie.title}
+                    ></img>
+                    <h2>{this.state.selectMovie.title}</h2>
+                    <span>{this.state.selectMovie.release_date}</span>
+                    <span> / {this.state.selectMovie.vote_average}</span>
+                    <span> / {this.state.selectMovie.genre}</span>
+                  </div>
+                  <p>
+                    {this.state.selectMovie.overview == null ? (
+                      <p>no description</p>
+                    ) : (
+                      this.state.selectMovie.overview
+                    )}
+                  </p>
+                </div>
               )}
+              <a href="https://github.com/jms080809">
+                <i class="fab fa-github"></i>
+              </a>
             </div>
           </div>
         )}
