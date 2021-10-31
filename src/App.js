@@ -1,14 +1,13 @@
 import axios from "axios";
 import React from "react";
 import { RenderMovie } from "./components/movies";
+import "./css/App.css";
+import "./css/movies.css";
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log("엠자탈모");
-  }
   state = {
     isLoading: true,
     movies: {},
+    selectMovie: null,
   };
   Talmo() {
     console.log(
@@ -19,14 +18,18 @@ class App extends React.Component {
       "당신은 개발자 콘솔에 손을 댔으므로 탈모빔에 맞으셨습니다. 이 저주는 풀 수 없습니다. 바꿔줄 수 없어 돌아가."
     );
   }
+  handleSelectMovie = (newObject) => {
+    this.setState({ selectMovie: newObject });
+  };
+
   async componentDidMount() {
     const movieResults = {};
     await axios
       .get(
-        `https://api.themoviedb.org/3/movie/popular?api_key=106ab699e8e239357e9cdd4f9ac16511&language=ko`
+        `https://api.themoviedb.org/3/trending/all/week?api_key=106ab699e8e239357e9cdd4f9ac16511&language=ko`
       )
       .then((json) => {
-        movieResults.popular = json.data.results;
+        movieResults.weektrend = json.data.results;
       });
     await axios
       .get(
@@ -43,54 +46,75 @@ class App extends React.Component {
         movieResults.topLank = json.data.results;
       });
     this.setState((curr) => (curr.movies = movieResults));
-    console.log(this.state.movies);
-
     this.setState((curr) => (curr.isLoading = false));
   }
   render() {
+    console.log(this.state);
     this.Talmo();
     return (
-      <div>
+      <div className="container">
         {this.state.isLoading ? (
-          "Loading..."
+          <h1>Loading...</h1>
         ) : (
-          <div class="movieList">
-            <popular>
-              <h1>Popular Movie List</h1>
-              {this.state.movies["popular"].map((element) => (
-                <RenderMovie
-                  title={element.title}
-                  poster_path={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${element.poster_path}`}
-                  release_date={element.release_date}
-                  overview={element.overview}
-                />
-              ))}
-              <h1>----------</h1>
-            </popular>
-            <upcoming>
-              <h1>Upcoming Movie List</h1>
-              {this.state.movies["upcoming"].map((element) => (
-                <RenderMovie
-                  title={element.title}
-                  poster_path={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${element.poster_path}`}
-                  release_date={element.release_date}
-                  overview={element.overview}
-                />
-              ))}
-              <h1>----------</h1>
-            </upcoming>
-            <toplank>
-              <h1>Top-lank Movie List</h1>
-              {this.state.movies["topLank"].map((element) => (
-                <RenderMovie
-                  title={element.title}
-                  poster_path={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${element.poster_path}`}
-                  release_date={element.release_date}
-                  overview={element.overview}
-                />
-              ))}
-              <h1>----------</h1>
-            </toplank>
+          <div>
+            <div className="movieList">
+              <h1>주간 추천</h1>
+              <popular className="movieSection">
+                {this.state.movies["weektrend"].map((element) => (
+                  <RenderMovie
+                    title={element.title || element.name}
+                    poster_path={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${element.poster_path}`}
+                    release_date={
+                      element.release_date || element.first_air_date
+                    }
+                    overview={element.overview}
+                    alt={element.title || element.name}
+                    genres={element.genre_ids}
+                    updateState={this.handleSelectMovie}
+                    vote_average={element.vote_average}
+                  />
+                ))}
+              </popular>
+              <h1>출시 예정</h1>
+              <upcoming className="movieSection">
+                {this.state.movies["upcoming"].map((element) => (
+                  <RenderMovie
+                    title={element.title || element.name}
+                    poster_path={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${element.poster_path}`}
+                    release_date={
+                      element.release_date || element.first_air_date
+                    }
+                    alt={element.title || element.name}
+                    genres={element.genre_ids}
+                    updateState={this.handleSelectMovie}
+                    vote_average={element.vote_average}
+                  />
+                ))}
+              </upcoming>
+              <h1>톱-랭크</h1>
+              <toplank className="movieSection">
+                {this.state.movies["topLank"].map((element) => (
+                  <RenderMovie
+                    title={element.title || element.name}
+                    poster_path={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${element.poster_path}`}
+                    release_date={
+                      element.release_date || element.first_air_date
+                    }
+                    alt={element.title || element.name}
+                    genres={element.genre_ids}
+                    updateState={this.handleSelectMovie}
+                    vote_average={element.vote_average}
+                  />
+                ))}
+              </toplank>
+            </div>
+            <div className="movieDetail">
+              {this.state.selectMovie == null ? (
+                <p>Nothing selected</p>
+              ) : (
+                <p>yes</p>
+              )}
+            </div>
           </div>
         )}
       </div>

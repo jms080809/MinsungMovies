@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap");
+:root {
+  --movie-font-color: #cdd9e5;
+  --movie-hover-color: #22272e;
+  --movie-detail-bg-color: #1e2733;
+}
+.container {
+  display: inline-block;
+  position: relative;
+  font-family: "IBM Plex Sans KR", sans-serif;
+  color: var(--movie-font-color);
+}
+.movieDetail {
+  border-radius: 10px;
+  position: fixed;
+  width: 35%;
+  height: 100%;
+  background-color: var(--movie-detail-bg-color);
+  right: 0;
+}
+.movieList {
+  margin: 0;
+  padding: 10px;
+  width: 65%;
+  float: left;
+}
+.movieSection {
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.movieSection .movie {
+  font-size: 15px;
+  color: var(--movie-font-color);
+  padding: 20px;
+  border-radius: 10px solid #ff0000;
+}
+.movieSection .movie:hover {
+  background-color: var(--movie-hover-color);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.movieSection .movie .poster {
+  width: 300px;
+}
+.movieSection .movie p {
+  display: block;
+  margin: 0;
+}
